@@ -160,3 +160,4 @@ partitura.insert(0, bajo)
 partitura.insert(0, soprano)
 
 partitura.show()
+partitura.write("midi", "partitura.mid")
