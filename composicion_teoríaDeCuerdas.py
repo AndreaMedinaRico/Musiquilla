@@ -35,16 +35,19 @@ partitura = stream.Stream()
 melodia = stream.Part()
 armonia = stream.Part()
 bajo = stream.Part()
+soprano = stream.Part()
 
 # Armadura de cada pentagrama
 melodia.append(key.Key("D", "minor"))
 armonia.append(key.Key("D", "minor"))
 bajo.append(key.Key("D", "minor"))
+soprano.append(key.Key("D", "minor"))
 
 # Instrumentos de cada pentagrama
 melodia.append(instrument.Violin())
 armonia.append(instrument.Organ())
 bajo.append(instrument.Bass())
+soprano.append(instrument.Soprano())
 
 
 # -------- COMPOSICIÓN --------
@@ -83,7 +86,7 @@ notas_bajo_dos = [
     ["G2", "B2", "D2"],
     ["D2", "F2", "A2"],
     ["A2", "C#2", "E2"],
-    ["D2", "F2", "A2"] 
+    ["D2", "F2", "A2"]
 ]
 
 notas_melodia_dos = [
@@ -109,7 +112,7 @@ notas_melodia_dos = [
     ("B-4", 0.5), ("D4", 0.25), ("C4", 0.25), ("B-4", 0.25),
     ("A4", 0.5), ("C4", 0.25), ("B-4", 0.25), ("A4", 0.25),
     ("G4", 0.5), ("B-4", 0.25), ("A4", 0.25), ("G4", 0.25),
-    ("F4", 0.5), ("A4", 0.25)
+    ("F4", 0.5), ("A4", 0.25), ("D4", 3)
 ]
 
 notas_armonia_dos = [
@@ -131,9 +134,20 @@ notas_armonia_dos = [
     "D4", "F4", "A4", "D4"
 ]
 
+acordes_soprano = [
+    ["A4", "C#4", "E4", "G4"], 
+    ["B3", "F3", "A3"]
+]
+
+for i in range(0, 16):
+    soprano.append(note.Rest(quarterLength=4))
+
 agregar_notas_armonia(armonia, notas_armonia_dos)
 agregar_notas_melodia(melodia, notas_melodia_dos)
 agregar_acordes_bajo(bajo, notas_bajo_dos)
+bajo.append(note.Rest(quarterLength=4))
+bajo.append(chord.Chord(["B2", "F2", "A2"], quarterLength=2))
+soprano.append(chord.Chord(acordes_soprano[0], quarterLength=4))
 
 # Volumen
 dyn = dynamics.Dynamic('p')  # 'p' = piano (suave)
@@ -143,5 +157,6 @@ armonia.insert(0, dyn)
 partitura.insert(0, melodia)
 partitura.insert(0, armonia)
 partitura.insert(0, bajo)
+partitura.insert(0, soprano)
 
 partitura.show()
